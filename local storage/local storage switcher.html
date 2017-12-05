@@ -1,0 +1,183 @@
+<style id="jsbin-css">
+.bar-toggle {
+        width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+	z-index: 20;
+}
+
+.column1 {
+    display: inline-block;
+	margin-top:20px;
+}
+
+.column2 {
+    display: inline-block;
+    height: 400px;
+    width: 400px;
+    margin-top: 20px;
+    background: url(okc.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 50px;
+	transition:all 1s ease;
+}
+
+.column2.dark-themed {
+   background: url(mil.png);
+   background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#container {
+   background-color: #017DC3;
+    height: 200px;
+    width: 200px;
+	transition:all 1s ease;
+}
+#container2 {
+   background-color: #F14F38;
+    height: 200px;
+    width: 200px;
+	transition:all 1s ease;
+}
+
+#container.dark-themed {
+   background-color: #285235 !important;
+}
+
+#container2.dark-themed {
+   background-color: #E0C8A4 !important;
+}
+
+body {
+transition: all 1s ease;
+}
+
+body.dark-themed {
+background:#171E28 !important;
+}
+
+.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "BUCKS";
+    padding-left: 10px;
+    background-color: #171E28; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OKC";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 56px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+</style>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<div class="onoffswitch">
+<a href="javascript:void(0)" class="bar-toggle"></a>
+    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+    <label class="onoffswitch-label" for="myonoffswitch">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+</div>
+<div class="column1">
+<div id="container">
+</div>
+<div id="container2">
+</div>
+</div>
+<div class="column2">
+<div id="full-image">
+</div>
+</div>
+<script id="jsbin-javascript">
+$('.bar-toggle').click(function(){
+    $('.onoffswitch-checkbox').click(); 
+    return false;
+});
+
+ function lsTest(){
+    var test = 'test';
+    try {
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+    } catch(e) {
+        return false;
+    }
+}
+
+if(lsTest() === true){
+
+var getStstus = localStorage.getItem('onoffswitch-checkbox');
+
+if (getStstus === "true")
+    $(".onoffswitch-checkbox").prop("checked", true);
+
+$(".onoffswitch-checkbox").click(function(){
+    localStorage.setItem('onoffswitch-checkbox', $(this).prop("checked"));
+});
+    //retrieve current state
+ $('#container').toggleClass(localStorage.toggled);
+ $('#container2').toggleClass(localStorage.toggled);
+ $('body').toggleClass(localStorage.toggled);
+ $('.column2').toggleClass(localStorage.toggled);
+ 
+    /* Toggle */
+    $('.bar-toggle').on('click',function(){
+
+       if (localStorage.toggled != "dark-themed" ) {
+          $('#container').toggleClass("dark-themed", true );
+		  $('#container2').toggleClass("dark-themed", true );
+		  $('body').toggleClass("dark-themed", true );
+		  $('.column2').toggleClass("dark-themed", true );
+          localStorage.toggled = "dark-themed";
+       } else {
+          $('#container').toggleClass("dark-themed", false );
+		  $('#container2').toggleClass("dark-themed", false );
+		  $('body').toggleClass("dark-themed", false );
+		  $('.column2').toggleClass("dark-themed", false );
+          localStorage.toggled = "";
+       }
+
+    });
+}else{
+    $("onoffswitch").hide();
+}
+</script>
